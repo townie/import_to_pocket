@@ -1,6 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'pry'
+
 gem 'markio'
-gem 'sinatra'
 gem 'pocket-ruby'
+
+gem 'pg'
+gem 'rake'
+gem 'sinatra'
+gem 'sinatra-activerecord', path: ".."
+gem 'activerecord', "3.2.17"
+
+gem 'pry-byebug'
+gem 'pry'

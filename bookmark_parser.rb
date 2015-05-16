@@ -32,8 +32,8 @@ get "/" do
 
   if session[:access_token]
     '
-<a href="/add?url=http://getpocket.com">Add Pocket Homepage</a>
-<a href="/retrieve">Retrieve single item</a>
+    <a href="/add?url=http://getpocket.com">Add Pocket Homepage</a>
+    <a href="/retrieve">Retrieve single item</a>
     '
   else
     '<a href="/oauth/connect">Connect with Pocket</a>'
