@@ -14,6 +14,7 @@ module Sinatra
             redirect '/secrets'
           end
 
+
           app.get  '/', &show_login
           app.get  '/sessions/new', &show_login
           app.post '/sessions', &receive_login
