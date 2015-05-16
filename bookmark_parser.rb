@@ -15,7 +15,7 @@ end
 
 enable :sessions
 
-CALLBACK_URL = "http://localhost:4567/oauth/callback"
+CALLBACK_URL = "http://localhost:9292/oauth/callback"
 
 Pocket.configure do |config|
   config.consumer_key = '41250-09dbdada46a9ef6ba88d41ee'

@@ -1,10 +1,13 @@
+require 'pocket-ruby'
 module Sinatra
   module ImportToPocket
     module Routing
       module Pocket
+        CALLBACK_URL = "http://localhost:9292/oauth/callback"
 
         def self.registered(app)
           oauth_callback = lambda do
+            binding.pry
             puts "OAUTH CALLBACK"
             puts "request.url: #{request.url}"
             puts "request.body: #{request.body.read}"
@@ -21,6 +24,8 @@ module Sinatra
 
           oauth_connect = lambda do
             puts "OAUTH CONNECT"
+            binding.pry
+
             session[:code] = Pocket.get_code(:redirect_uri => CALLBACK_URL)
             new_url = Pocket.authorize_url(:code => session[:code], :redirect_uri => CALLBACK_URL)
             puts "new_url: #{new_url}"

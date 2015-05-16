@@ -1,3 +1,4 @@
+require 'pry'
 module Sinatra
   module ImportToPocket
     module Routing
@@ -9,6 +10,10 @@ module Sinatra
             erb :secrets
           end
 
+          play = lambda do
+            binding.pry
+          end
+          app.get '/play', &play
           app.get  '/secrets', &show_secrets
         end
 
