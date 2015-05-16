@@ -13,12 +13,20 @@
 
 ActiveRecord::Schema.define(:version => 20140415204542) do
 
-  # These are extensions that must be enabled in order to support this database
-  # enable_extension "plpgsql"
+  create_table "bookmarks", :force => true do |t|
+    t.text     "title"
+    t.text     "href"
+    t.text     "folders"
+    t.datetime "add_date"
+    t.datetime "last_visit"
+    t.datetime "last_modified"
+  end
 
   create_table "users", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "email"
+    t.text     "access_token"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
 end
