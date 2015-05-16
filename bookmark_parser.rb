@@ -1,5 +1,7 @@
 require 'markio'
 require 'pry'
+require "sinatra"
+require "pocket-ruby"
 
 bookmarks = Markio::parse(File.open('bookmarks_5_15_15.html'))
 bookmarks.each do |b|
@@ -11,19 +13,12 @@ bookmarks.each do |b|
   b.last_modified   # DateTime
 end
 
-binding.pry
-
-
-require "sinatra"
-
-require "./lib/pocket-ruby.rb"
-
 enable :sessions
 
 CALLBACK_URL = "http://localhost:4567/oauth/callback"
 
 Pocket.configure do |config|
-  config.consumer_key = '10188-3565cd04d1464e6d0e64b67f'
+  config.consumer_key = '41250-09dbdada46a9ef6ba88d41ee'
 end
 
 get '/reset' do
@@ -77,14 +72,35 @@ end
 
 get "/retrieve" do
   client = Pocket.client(:access_token => session[:access_token])
-  info = client.retrieve(:detailType => :complete, :count => 1)
 
-binding.pry
+  info = client.retrieve(:detailType => :simple, :count => 420)
+  ids = info["list"].map(&:first)
 
-  # html = "<h1>#{user.username}'s recent photos</h1>"
-  # for media_item in client.user_recent_media
-  #   html << "<img src='#{media_item.images.thumbnail.url}'>"
-  # end
-  # html
   "<pre>#{info}</pre>"
+end
+
+get '/clearAll' do
+
+end
+
+def client
+  client ||= Pocket.client(:access_token => session[:access_token])
+end
+
+get '/upload' do
+  client = Pocket.client(:access_token => session[:access_token])
+
+  bookmarks.each do |book|
+    new_bookmark = {}
+    new_bookmark[:url] = book.href
+    new_bookmark[:title] = book.title
+    new_bookmark[:tags] = book.folders.concat(book.title.split(" ")).join(",")
+    begin
+      client.add new_bookmark
+    rescue => e
+      puts e.message
+    end
+  end
+
+  bookmarks
 end
