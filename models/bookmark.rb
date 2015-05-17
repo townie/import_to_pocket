@@ -3,6 +3,8 @@ require 'sinatra/activerecord'
 require 'markio'
 
 class Bookmark < ActiveRecord::Base
+  belongs_to :user
+
   def self.import_from_file(filename='bookmarks_5_15_15.html')
     bookmarks = Markio::parse(File.open(filename))
     bookmarks.each do |b|
@@ -18,4 +20,5 @@ class Bookmark < ActiveRecord::Base
       Bookmark.new bookmark
     end
   end
+
 end
